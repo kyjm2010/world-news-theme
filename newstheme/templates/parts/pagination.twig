@@ -1,0 +1,32 @@
+{% if posts.pagination.pages %}
+  <nav class="my-4">
+    <ul class="pagination justify-content-center">
+
+      {# Previous #}
+      {% if posts.pagination.prev %}
+        <li class="page-item"><a href="{{ posts.pagination.prev.link }}" class="page-link">Previous</a></li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+      {% endif %}
+
+      {# Pages #}
+      {% for page in posts.pagination.pages %}
+        {% if page.current %}
+          <li class="page-item active"><span class="page-link">{{ page.title }}</span></li>
+        {% elseif page.class == 'dots' %}
+          <li class="page-item disabled"><span class="page-link">{{ page.title }}</span></li>
+        {% else %}
+          <li class="page-item"><a href="{{ page.link }}" class="page-link">{{ page.title }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {# Next #}
+      {% if posts.pagination.next %}
+        <li class="page-item"><a href="{{ posts.pagination.next.link }}" class="page-link">Next</a></li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+      {% endif %}
+
+    </ul>
+  </nav>
+{% endif %}

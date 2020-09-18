@@ -1,0 +1,27 @@
+<div class="row py-3 border-bottom {{ post.breaking ? 'border border-danger bg-light rounded py-4' }}">
+  <div class="{{ post.breaking ? 'col-3' : 'col-2' }}">
+    <img src="{{ theme.link }}/images/news/{{ post.slug }}.jpg" width="100%" class="rounded">
+  </div>
+  <div class="{{ post.breaking ? 'col-9' : 'col-10' }}">
+    <h5>
+      <a href="{{ post.link }}">
+        {% if post.breaking %}
+          <span class="badge badge-danger font-weight-bold">Braking News!</span>
+          <span class="text-danger font-weight-bold">{{ post.title }}</span>
+        {% else %}
+          <span class="text-dark">{{ post.title }}</span>
+        {% endif %}
+
+      </a>
+    </h5>
+
+    {{ include('parts/terms.twig', { list: post.terms('category'), label: 'Category' }) }}
+    {{ include('parts/terms.twig', { list: post.terms('post_tag'), label: 'Tags' }) }}
+    {{ include('parts/terms.twig', { list: post.terms('sponsor'), label: 'Sponsor' }) }}
+
+    <div class="mt-2">
+      {{ post.breaking ? post.content|excerpt(110) : post.content|excerpt(50) }}
+      <a href="{{ post.link }}" class="badge btn btn-light">Read more</a>
+    </div>
+  </div>
+</div>

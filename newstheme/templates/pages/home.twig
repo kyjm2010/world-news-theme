@@ -1,0 +1,90 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+
+<div class="row">
+
+  {% set featured_list = [] %}
+
+  <!-- Left column -->
+  <div class="col-8">
+    <!-- Top story -->
+    {% if post.meta('top_story') %}
+      {% set top = post.meta('top_story') %}
+      <div class="row rounded pt-2">
+        <div class="col-4">
+          <img width="100%" src="{{ theme.link }}/images/news/{{ top.slug }}.jpg" class="mt-2 mb-3 rounded">
+        </div>
+        <div class="col-8">
+          <h3 class="font-weight-bold">
+            <a href="{{ top.link }}" class="text-dark">{{ top.title }}</a>
+          </h3>
+          {{ top.content|excerpt(50) }}
+          <a href="{{ top.link }}" class="badge badge-light">Read more</a>
+        </div>
+      </div>
+      {% set featured_list = featured_list|merge([top.id]) %}
+    {% endif %}
+
+    <!-- Featured news -->
+    {% if post.meta('featured_news') %}
+      <div class="row mt-4">
+        {% for news in post.meta('featured_news') %}
+          <div class="col">
+            <img width="100%" src="{{ theme.link }}/images/news/{{ news.slug }}.jpg" class="mt-2 mb-3 rounded">
+            <h6 class="font-weight-bold">
+              <a href="{{ news.link }}" class="text-dark">{{ news.title }}</a>
+            </h6>
+          </div>
+          {% set featured_list = featured_list|merge([news.id]) %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Promoted people -->
+    <hr>
+    <div class="row mt-3">
+      {% for person in promoted_people.posts({ posts_per_page: 3, orderby: 'rand'}) %}
+        <div class="col-4">
+          <div class="card bg-success text-white border-light">
+            <img src="{{ person.thumbnail.src('full') }}" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title font-weight-bold">{{ person.title }}</h5>
+              <p class="card-text">{{ person.content|excerpt(5) }}</p>
+              <a href="{{ person.link }}" class="btn btn-light">Visit profile</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Right column -->
+  <div class="col-4">
+
+    {{ include('parts/latest-news.twig', {
+      label: 'Events',
+      color: 'primary',
+      term: events
+    }) }}
+    {{ include('parts/latest-news.twig', {
+      label: 'Sport',
+      color: 'warning',
+      term: sport
+    }) }}
+    {{ include('parts/latest-news.twig', {
+      label: 'Animals',
+      color: 'success',
+      term: animals
+    }) }}
+    {{ include('parts/latest-news.twig', {
+      label: 'Architecture',
+      color: 'info',
+      term: architecture
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}

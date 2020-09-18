@@ -1,0 +1,12 @@
+{% extends 'base.twig' %}
+
+{% block subheader %}
+  {{ block('subheader', 'pages/news.twig') }}
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    {{ include('parts/news-teaser.twig') }}
+  {% endfor %}
+  {{ include('parts/pagination.twig') }}
+{% endblock %}
